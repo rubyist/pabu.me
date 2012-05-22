@@ -1,12 +1,19 @@
 <html>
 <head>
+  <script src="js/kinetic-v3.9.6.min.js"></script>
+  <script src="js/pabu.js"></script>
+  <link rel="stylesheet" href="css/pabu.css" />
+
+  <script>
+    window.onload = function() { pabuGO('./images/prototype.jpg', 640, 426); }
+  </script>
 </head>
 <body>
   <div id="pabu"></div>
   <div id="todo">
     <h2>Todo</h2>
     <ul>
-      <li>Initial prototype</li>
+      <li><strike>Initial prototype</strike></li>
       <li>Proportional scaling only</li>
       <li>Background image upload</li>
       <li>Person detection</li>
