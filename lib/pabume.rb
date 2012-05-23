@@ -20,7 +20,7 @@ end
 require 'document'
 require 'find_faces'
 
-include Magick
+#include Magick
 
 set :public_folder, Pathname(File.expand_path('../..', __FILE__) + '/static')
 
@@ -47,17 +47,17 @@ end
 
 post '/pabufy'  do
   # url, geometry, size
-  image_data = open(params[:url], 'rb').read
-  background = ImageList.new
-  background.from_blob(image_data)
-  background.geometry = pabu_geometry
+  # image_data = open(params[:url], 'rb').read
+  # background = ImageList.new
+  # background.from_blob(image_data)
+  # background.geometry = pabu_geometry
 
-  pabu = ImageList.new(File.dirname(__FILE__) + '/static/pabu.gif')
-  pabu.each { |p| p.resize! pabu_width, pabu_height }
+  # pabu = ImageList.new(File.dirname(__FILE__) + '/static/pabu.gif')
+  # pabu.each { |p| p.resize! pabu_width, pabu_height }
 
-  comp = background.composite_layers(pabu)
+  # comp = background.composite_layers(pabu)
 
-  content_type 'image/gif'
-  comp.format = 'gif'
-  comp.to_blob
+  # content_type 'image/gif'
+  # comp.format = 'gif'
+  # comp.to_blob
 end
