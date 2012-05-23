@@ -1,3 +1,36 @@
+function checkFaceStatus(id) {
+  $.ajax({
+    url: '/status/' + id,
+    dataType: 'json',
+    success: function(data) {
+      if (data) {
+        pabuGO(data);
+      } else {
+        setTimeout(function() {checkFaceStatus(id)}, 1000);
+      }
+    }
+  });
+}
+
+function findFacesResponse(responseText, statusText, xhr, $form) {
+  // Add image, poll for face attributes
+  checkFaceStatus(responseText);
+}
+
+$(document).ready(function() {
+  $('#urlForm').ajaxForm({
+    beforeSubmit: function() {   $('#pabufying').show(); },
+    success: findFacesResponse
+  });
+});
+
+
+
+
+
+
+
+
 function update(group, activeAnchor) {
   var topLeft = group.get(".topLeft")[0];
   var bottomRight = group.get(".bottomRight")[0];
@@ -67,13 +100,17 @@ function addAnchor(group, x, y, name, invisible) {
   group.add(anchor);
 }
 
-function pabuGO(imageUrl, width, height) {
+function pabuGO(pabuData) {
+  console.log(pabuData);
+  $('#pabufying').hide();
+
   var stage = new Kinetic.Stage({
     container: "pabu",
-    width: width,
-    height: height
+    width: pabuData.image_width,
+    height: pabuData.image_height
   });
 
+  // pabu position on panda group
   var pandaGroup = new Kinetic.Group({x: 50, y: 50, draggable: true});
   var layer = new Kinetic.Layer();
   layer.add(pandaGroup);
@@ -85,14 +122,14 @@ function pabuGO(imageUrl, width, height) {
       x: 0,
       y: 0,
       image: backgroundSource,
-      width: width,
-      height: height,
+      width: pabuData.image_width,
+      height: pabuData.image_height,
       name: "image"
     });
     layer.add(backgroundImg);
     layer.draw();
   }
-  backgroundSource.src = imageUrl;
+  backgroundSource.src = pabuData.url;
 
   var pandaSource = new Image();
   pandaSource.onload = function() {
@@ -100,7 +137,7 @@ function pabuGO(imageUrl, width, height) {
       x: 0,
       y: 0,
       image: pandaSource,
-      width: 550,
+      width: 550, // pabu width/height
       height: 270,
       name: "image"
     });
@@ -111,7 +148,7 @@ function pabuGO(imageUrl, width, height) {
   pandaSource.src = './images/pabu.gif';
 
   addAnchor(pandaGroup, 0, 0, "topLeft");
-  addAnchor(pandaGroup, 550, 270, "bottomRight");
+  addAnchor(pandaGroup, 550, 270, "bottomRight"); // pabu width/height
 
   stage.draw();
 };

@@ -28,6 +28,8 @@ class FindFaces
     pabu_y = nose_y.to_i
 
 
+    document.image_width = pic_width
+    document.image_height = pic_height
 
     document.pabu_width = pabu_width
     document.pabu_height = pabu_height

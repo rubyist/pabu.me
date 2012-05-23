@@ -19,12 +19,27 @@ require 'find_faces'
 
 include Magick
 
-set :public_folder, Pathname(File.expand_path('../..', __FILE__)) + '/public'
+set :public_folder, Pathname(File.expand_path('../..', __FILE__) + '/static')
+
+get '/' do
+  erb :index
+end
+
+get '/status/:id' do
+  document = Document.find(params[:id])
+  if document.faces
+    content_type 'application/json'
+    document.to_json
+  else
+    'false'
+  end
+end
+
 
 post '/pabuplan' do
   document = Document.create!(:url => params[:url], :faces => false)
   Qu.enqueue(FindFaces, document.id)
-  "document id of: #{document.id}"
+  document.id.to_s
 end
 
 post '/pabufy'  do
