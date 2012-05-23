@@ -111,7 +111,7 @@ function pabuGO(pabuData) {
   });
 
   // pabu position on panda group
-  var pandaGroup = new Kinetic.Group({x: 50, y: 50, draggable: true});
+  var pandaGroup = new Kinetic.Group({x: pabuData.pabu_x, y: pabuData.pabu_y, draggable: true});
   var layer = new Kinetic.Layer();
   layer.add(pandaGroup);
   stage.add(layer);
@@ -137,8 +137,8 @@ function pabuGO(pabuData) {
       x: 0,
       y: 0,
       image: pandaSource,
-      width: 550, // pabu width/height
-      height: 270,
+      width: pabuData.pabu_width, // pabu width/height
+      height: pabuData.pabu_height,
       name: "image"
     });
     pandaGroup.add(pandaImg);
@@ -148,7 +148,7 @@ function pabuGO(pabuData) {
   pandaSource.src = './images/pabu.gif';
 
   addAnchor(pandaGroup, 0, 0, "topLeft");
-  addAnchor(pandaGroup, 550, 270, "bottomRight"); // pabu width/height
+  addAnchor(pandaGroup, pabuData.pabu_width, pabuData.pabu_height, "bottomRight"); // pabu width/height
 
   stage.draw();
 };
