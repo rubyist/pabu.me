@@ -3,7 +3,12 @@ $: << File.expand_path('../../lib', __FILE__)
 require 'bundler'
 Bundler.require
 
-mongo_url = "mongodb://localhost:27017/pabume-#{ENV['RACK_ENV'] || 'development'}"
+
+if ENV['RACK_ENV']
+  mongo_url = "mongodb://#{ENV['MONGO_USER']}:#{ENV['MONGO_PASS']}@staff.mongohq.com:10051/app4788146"
+else
+  mongo_url = "mongodb://localhost:27017/pabume-#{ENV['RACK_ENV'] || 'development'}"
+end
 uri = URI.parse(mongo_url)
 database = uri.path.gsub('/', '')
 MongoMapper.connection = Mongo::Connection.new(uri.host, uri.port, {})
@@ -11,8 +16,6 @@ MongoMapper.database = database
 if uri.user.present? && uri.password.present?
   MongoMapper.database.authenticate(uri.user, uri.password)
 end
-
-
 
 require 'document'
 require 'find_faces'
