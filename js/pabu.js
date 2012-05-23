@@ -1,35 +1,27 @@
 function update(group, activeAnchor) {
   var topLeft = group.get(".topLeft")[0];
-  var topRight = group.get(".topRight")[0];
   var bottomRight = group.get(".bottomRight")[0];
-  var bottomLeft = group.get(".bottomLeft")[0];
   var image = group.get(".image")[0];
 
+  var originalWidth = 545;
+  var originalHeight = 270;
+  var originalRatio = originalWidth / originalHeight;
+
   // update anchor positions
-  switch (activeAnchor.getName()) {
-    case "topLeft":
-      topRight.attrs.y = activeAnchor.attrs.y;
-      bottomLeft.attrs.x = activeAnchor.attrs.x;
-      break;
-    case "topRight":
-      topLeft.attrs.y = activeAnchor.attrs.y;
-      bottomRight.attrs.x = activeAnchor.attrs.x;
-      break;
-    case "bottomRight":
-      bottomLeft.attrs.y = activeAnchor.attrs.y;
-      topRight.attrs.x = activeAnchor.attrs.x;
-      break;
-    case "bottomLeft":
-      bottomRight.attrs.y = activeAnchor.attrs.y;
-      topLeft.attrs.x = activeAnchor.attrs.x;
-      break;
+  var newWidth = bottomRight.attrs.x - topLeft.attrs.x;
+  var newHeight = newWidth / originalRatio;
+
+  if (activeAnchor.getName() === "topLeft") {
+    activeAnchor.attrs.y = bottomRight.attrs.y - newHeight;
+  } else {
+    activeAnchor.attrs.y = topLeft.attrs.y + newHeight;
   }
 
   image.setPosition(topLeft.attrs.x, topLeft.attrs.y);
-  image.setSize(topRight.attrs.x - topLeft.attrs.x, bottomLeft.attrs.y - topLeft.attrs.y);
+  image.setSize(bottomRight.attrs.x - topLeft.attrs.x, bottomRight.attrs.y - topLeft.attrs.y);
 }
 
-function addAnchor(group, x, y, name) {
+function addAnchor(group, x, y, name, invisible) {
   var stage = group.getStage();
   var layer = group.getLayer();
 
@@ -51,9 +43,11 @@ function addAnchor(group, x, y, name) {
   anchor.on("mousedown touchstart", function() {
     group.draggable(false);
     this.moveToTop();
+    this.hide();
   });
   anchor.on("dragend", function() {
     group.draggable(true);
+    this.show();
     layer.draw();
   });
   // add hover styling
@@ -116,13 +110,8 @@ function pabuGO(imageUrl, width, height) {
   }
   pandaSource.src = './images/pabu.gif';
 
-
-
   addAnchor(pandaGroup, 0, 0, "topLeft");
-  addAnchor(pandaGroup, 550, 0, "topRight");
   addAnchor(pandaGroup, 550, 270, "bottomRight");
-  addAnchor(pandaGroup, 0, 270, "bottomLeft");
-
 
   stage.draw();
 };
