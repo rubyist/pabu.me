@@ -1,5 +1,8 @@
 require 'sinatra'
 require 'face'
+require 'RMagick'
+require 'open-uri'
+include Magick
 
 set :public_folder, File.dirname(__FILE__) + '/static'
 
@@ -28,5 +31,17 @@ post '/pabufy' do
 
   pabu_geometry = '%+d%+d' % [pabu_x, pabu_y]
 
-  "convert -size #{pic_width}x#{pic_height} [[src]] null: \\( op.gif -resize #{pabu_width}x#{pabu_height} -coalesce \\) -geometry #{pabu_geometry}  -layers Composite [[dst]]"
+  image_data = open(params[:url], 'rb').read
+  background = ImageList.new
+  background.from_blob(image_data)
+  background.geometry = pabu_geometry
+
+  pabu = ImageList.new(File.dirname(__FILE__) + '/static/pabu.gif')
+  pabu.each { |p| p.resize! pabu_width, pabu_height }
+
+  comp = background.composite_layers(pabu)
+
+  content_type 'image/gif'
+  comp.format = 'gif'
+  comp.to_blob
 end
