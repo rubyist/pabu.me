@@ -1,5 +1,5 @@
 require 'open-uri'
-require 'rmagick'
+require 'RMagick'
 
 class Pabufy
   def self.perform(document_id)
