@@ -7,9 +7,21 @@
   <script src="/js/pabu.js"></script>
   <link rel="stylesheet" href="/css/pabu.css" />
 
-  <script>
-    //window.onload = function() { pabuGO('./images/prototype.jpg', 640, 426); }
-  </script>
+  <% if ENV['GAUGES'] %>
+    <script type="text/javascript">
+      var _gauges = _gauges || [];
+      (function() {
+        var t   = document.createElement('script');
+        t.type  = 'text/javascript';
+        t.async = true;
+        t.id    = 'gauges-tracker';
+        t.setAttribute('data-site-id', '<%= ENV['GAUGES'] %>');
+        t.src = '//secure.gaug.es/track.js';
+        var s = document.getElementsByTagName('script')[0];
+        s.parentNode.insertBefore(t, s);
+      })();
+    </script>
+  <% end %>
 </head>
 <body>
   <h1>Pabu Me!</h1>
@@ -35,7 +47,7 @@
       <li><strike>Find people in image</strike></li>
       <li><strike>Place a scalable Pabu by them</strike></li>
       <li><strike>Generate final animated gif</strike></li>
-      <li>Position and scale the animated Pabu properly in animation</li>
+      <li>Position and scale the animated Pabu properly in animation¯</li>
       <li>Put the generated image on s3 or something not stupid</li>
       <li>Pabufy image upload</li>
       <li>Purty designs</li>
