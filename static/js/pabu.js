@@ -184,6 +184,7 @@ function pabuGO(pabuData) {
 
   addAnchor(pandaGroup, 0, 0, "topLeft");
   addAnchor(pandaGroup, pabuData.pabu_width, pabuData.pabu_height, "bottomRight"); // pabu width/height
+  pandaGroup.moveToTop();
 
   stage.draw();
 };
