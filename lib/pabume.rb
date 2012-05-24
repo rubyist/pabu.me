@@ -17,11 +17,11 @@ if uri.user.present? && uri.password.present?
   MongoMapper.database.authenticate(uri.user, uri.password)
 end
 
+AWS::S3::Base.establish_connection!(:access_key_id => ENV['AMAZON_ACCESS_KEY'], :secret_access_key => ENV['AMAZON_SECRET_KEY'])
+
 require 'document'
 require 'find_faces'
 require 'pabufy'
-
-#include Magick
 
 set :public_folder, Pathname(File.expand_path('../..', __FILE__) + '/static')
 
@@ -62,9 +62,9 @@ get '/pabufystatus/:id' do
   end
 end
 
-get '/pabufied/:id' do
+get '/pabufied/:id.gif' do
   document = Document.find(params[:id])
   content_type 'image/gif'
-  document.image.as_json['str']
+  # can just get a link maybe?
+  AWS::S3::S3Object.value("#{params[:id]}.gif", ENV['AMAZON_BUCKET_NAME'])
 end
-

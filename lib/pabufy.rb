@@ -19,7 +19,8 @@ class Pabufy
     comp = background.composite_layers(pabu)
 
     comp.format = 'gif'
-    document.image = comp.to_blob
+
+    AWS::S3::S3Object.store("#{document_id}.gif", comp.to_blob, ENV['AMAZON_BUCKET_NAME'], :content_type => 'image/gif')
     document.pabufied = true
     document.save!
   end

@@ -55,7 +55,7 @@ $(document).ready(function() {
 function showPabufiedGif(data) {
   $('#pabufying').hide();
   $('#urlForm').hide();
-  $('#pabu').html('<img src="/pabufied/' + data.id + '" />').show();
+  $('#pabu').html('<img src="/pabufied/' + data.id + '.gif" />').show();
 }
 
 

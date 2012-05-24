@@ -9,5 +9,4 @@ class Document
   key :pabu_y, Integer
   key :faces, Boolean, :default => false
   key :pabufied, Boolean, :default => false
-  key :image, Binary
 end
