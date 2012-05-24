@@ -1,6 +1,6 @@
 function checkFaceStatus(id) {
   $.ajax({
-    url: '/status/' + id,
+    url: '/planstatus/' + id,
     dataType: 'json',
     success: function(data) {
       if (data) {
@@ -12,9 +12,27 @@ function checkFaceStatus(id) {
   });
 }
 
+function checkPabufyStatus(id) {
+  $.ajax({
+    url: '/pabufystatus/' + id,
+    dataType: 'json',
+    success: function(data) {
+      if (data) {
+        showPabufiedGif(data);
+      } else {
+        setTimeout(function() {checkPabufyStatus(id)}, 1000);
+      }
+    }
+  })
+}
+
 function findFacesResponse(responseText, statusText, xhr, $form) {
   // Add image, poll for face attributes
   checkFaceStatus(responseText);
+}
+
+function pabufiedResponse(responseText, statusText, xhr, $form) {
+  checkPabufyStatus(responseText);
 }
 
 $(document).ready(function() {
@@ -22,9 +40,23 @@ $(document).ready(function() {
     beforeSubmit: function() {   $('#pabufying').show(); },
     success: findFacesResponse
   });
+
+  $('#pabufyForm').submit(function() {
+    console.log('submitting form');
+    $(this).ajaxSubmit({
+      beforeSubmit: function() {   $('#pabufyForm').hide(); $('#pabufying').show(); $('#pabu').hide(); },
+      success: pabufiedResponse
+    });
+
+    return false;
+  });
 });
 
-
+function showPabufiedGif(data) {
+  $('#pabufying').hide();
+  $('#urlForm').hide();
+  $('#pabu').html('<img src="/pabufied/' + data.id + '" />').show();
+}
 
 
 
@@ -103,6 +135,9 @@ function addAnchor(group, x, y, name, invisible) {
 function pabuGO(pabuData) {
   console.log(pabuData);
   $('#pabufying').hide();
+  $('#pabufyForm').show();
+  $('#urlForm').hide();
+  $('#pabufyForm input[name="id"]').val(pabuData.id)
 
   var stage = new Kinetic.Stage({
     container: "pabu",

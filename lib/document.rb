@@ -7,5 +7,7 @@ class Document
   key :pabu_height, Integer
   key :pabu_x, Integer
   key :pabu_y, Integer
-  key :faces, Boolean
+  key :faces, Boolean, :default => false
+  key :pabufied, Boolean, :default => false
+  key :image, Binary
 end

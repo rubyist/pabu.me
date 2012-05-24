@@ -14,7 +14,7 @@
 <body>
   <h1>Pabu Me!</h1>
   <div>
-    <form method="POST" action="/pabuplan" id="urlForm">
+    <form method="post" action="/pabuplan" id="urlForm">
       Gimme an URL: <input name="url" type="text" value="http://mc.rubyi.st/~scott/pabu/scott.jpg" /> <input type="submit" name="Pabufy" />
     </form>
   </div>
@@ -22,6 +22,11 @@
   <div id="pabufying">Pabufying ...</div>
 
   <div id="pabu"></div>
+  <form method="post" action="/pabufy" id="pabufyForm">
+    <input type="hidden" name="id" />
+    <input type="submit" value="THIS LOOKS GOOD LET'S DO IT!" />
+  </form>
+
   <div id="todo">
     <h2>Todo</h2>
     <ul>
@@ -29,12 +34,14 @@
       <li><strike>Proportional scaling only</strike></li>
       <li><strike>Find people in image</strike></li>
       <li><strike>Place a scalable Pabu by them</strike></li>
-      <li>Use trimmed image of first frame of Pabu for scaler, save width</li>
-      <li>Generate final animated gif</li>
+      <li><strike>Generate final animated gif</strike></li>
+      <li>Position and scale the animated Pabu properly in animation</li>
+      <li>Put the generated image on s3 or something not stupid</li>
       <li>Pabufy image upload</li>
       <li>Purty designs</li>
       <li>Detect multiple people</li>
       <li>Flip Pabu to face right or left</li>
+      <li>Use trimmed image of first frame of Pabu for scaler, save width</li>
       <li>Work better with smaller images - Pabu's drag handles are too big</li>
       <li>Animate Pabu while working</li>
       <li>...</li>
